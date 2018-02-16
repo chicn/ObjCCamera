@@ -16,6 +16,7 @@
 		60E22E6F2036EA83007EB03D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E6E2036EA83007EB03D /* AVFoundation.framework */; };
 		60E22E712036EAC0007EB03D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E702036EABF007EB03D /* CoreMedia.framework */; };
 		60E22E732036EAD1007EB03D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E722036EAD1007EB03D /* CoreVideo.framework */; };
+		60E22E782036F78F007EB03D /* FaceDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E22E772036F78F007EB03D /* FaceDetector.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		60E22E6E2036EA83007EB03D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		60E22E702036EABF007EB03D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		60E22E722036EAD1007EB03D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		60E22E772036F78F007EB03D /* FaceDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceDetector.m; sourceTree = "<group>"; };
+		60E22E792036F7A2007EB03D /* FaceDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetector.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +80,8 @@
 				60E22E622036E9B6007EB03D /* LaunchScreen.storyboard */,
 				60E22E652036E9B6007EB03D /* Info.plist */,
 				60E22E662036E9B6007EB03D /* main.m */,
+				60E22E772036F78F007EB03D /* FaceDetector.m */,
+				60E22E792036F7A2007EB03D /* FaceDetector.h */,
 			);
 			path = ObjCCamera;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 			files = (
 				60E22E5C2036E9B6007EB03D /* ViewController.m in Sources */,
 				60E22E672036E9B6007EB03D /* main.m in Sources */,
+				60E22E782036F78F007EB03D /* FaceDetector.m in Sources */,
 				60E22E592036E9B6007EB03D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,6 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GDYU937CV9;
 				INFOPLIST_FILE = ObjCCamera/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.chicn.ObjCCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -315,6 +322,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GDYU937CV9;
 				INFOPLIST_FILE = ObjCCamera/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.chicn.ObjCCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
