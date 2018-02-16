@@ -32,7 +32,7 @@
     self.session = [[AVCaptureSession alloc] init];
     [self.session addInput:deviceInput];
     [self.session addOutput:dataOutput];
-    self.session.sessionPreset = AVCaptureSessionPresetHigh;
+    self.session.sessionPreset = AVCaptureSessionPreset352x288;
 
     AVCaptureConnection *videoConnection = NULL;
 

@@ -12,7 +12,8 @@
 @interface ViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (nonatomic, strong) AVCaptureSession* session;
-@property (nonatomic, strong) IBOutlet UIImageView* imageView;
+//@property (nonatomic, strong) IBOutlet UIImageView* ;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
