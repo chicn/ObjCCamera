@@ -64,7 +64,9 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
     // render image
-    self.imageView.image = [self imageFromSampleBufferRef:sampleBuffer];
+    UIImage* img = [self imageFromSampleBufferRef:sampleBuffer];
+    img = [self imageByDrawingCircleOnImage:img];
+    self.imageView.image = img;
 }
 
 // Convert CMSampleBufferRef to UIImage
@@ -107,4 +109,36 @@
     return image;
 }
 
+- (UIImage *)imageByDrawingCircleOnImage:(UIImage *)src
+{
+    // begin a graphics context of sufficient size
+    UIGraphicsBeginImageContext(src.size);
+
+    // draw original image into the context
+    [src drawAtPoint:CGPointZero];
+
+    // get the context for CoreGraphics
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+
+    // set stroking color and draw circle
+    [[UIColor greenColor] setStroke];
+
+    // make circle rect 5 px from border
+    //CGRect circleRect = CGRectMake(10, 20, 5, 5);
+    CGRect circleRect;
+    circleRect.origin = CGPointMake(10, 10);
+    circleRect.size = CGSizeMake(5, 5);
+    circleRect = CGRectInset(circleRect, 1, 1);
+
+    // draw circle
+    CGContextStrokeEllipseInRect(ctx, circleRect);
+
+    // make image out of bitmap context
+    UIImage *dst = UIGraphicsGetImageFromCurrentImageContext();
+
+    // free the context
+    UIGraphicsEndImageContext();
+
+    return dst;
+}
 @end
