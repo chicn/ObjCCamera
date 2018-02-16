@@ -13,6 +13,9 @@
 		60E22E612036E9B6007EB03D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60E22E602036E9B6007EB03D /* Assets.xcassets */; };
 		60E22E642036E9B6007EB03D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60E22E622036E9B6007EB03D /* LaunchScreen.storyboard */; };
 		60E22E672036E9B6007EB03D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E22E662036E9B6007EB03D /* main.m */; };
+		60E22E6F2036EA83007EB03D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E6E2036EA83007EB03D /* AVFoundation.framework */; };
+		60E22E712036EAC0007EB03D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E702036EABF007EB03D /* CoreMedia.framework */; };
+		60E22E732036EAD1007EB03D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E722036EAD1007EB03D /* CoreVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		60E22E632036E9B6007EB03D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		60E22E652036E9B6007EB03D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60E22E662036E9B6007EB03D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		60E22E6E2036EA83007EB03D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		60E22E702036EABF007EB03D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		60E22E722036EAD1007EB03D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60E22E732036EAD1007EB03D /* CoreVideo.framework in Frameworks */,
+				60E22E712036EAC0007EB03D /* CoreMedia.framework in Frameworks */,
+				60E22E6F2036EA83007EB03D /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +53,7 @@
 			children = (
 				60E22E562036E9B6007EB03D /* ObjCCamera */,
 				60E22E552036E9B6007EB03D /* Products */,
+				60E22E6D2036EA82007EB03D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +79,16 @@
 				60E22E662036E9B6007EB03D /* main.m */,
 			);
 			path = ObjCCamera;
+			sourceTree = "<group>";
+		};
+		60E22E6D2036EA82007EB03D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				60E22E722036EAD1007EB03D /* CoreVideo.framework */,
+				60E22E702036EABF007EB03D /* CoreMedia.framework */,
+				60E22E6E2036EA83007EB03D /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
