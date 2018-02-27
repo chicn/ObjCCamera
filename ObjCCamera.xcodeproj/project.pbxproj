@@ -16,10 +16,11 @@
 		60E22E6F2036EA83007EB03D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E6E2036EA83007EB03D /* AVFoundation.framework */; };
 		60E22E712036EAC0007EB03D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E702036EABF007EB03D /* CoreMedia.framework */; };
 		60E22E732036EAD1007EB03D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60E22E722036EAD1007EB03D /* CoreVideo.framework */; };
-		60E22E782036F78F007EB03D /* FaceDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E22E772036F78F007EB03D /* FaceDetector.m */; };
+		62588555C55820F7DFD085D3 /* libPods-ObjCCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 241ACB251B3F213C9853935B /* libPods-ObjCCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		241ACB251B3F213C9853935B /* libPods-ObjCCamera.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ObjCCamera.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E22E542036E9B6007EB03D /* ObjCCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjCCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60E22E572036E9B6007EB03D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60E22E582036E9B6007EB03D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -33,8 +34,8 @@
 		60E22E6E2036EA83007EB03D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		60E22E702036EABF007EB03D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		60E22E722036EAD1007EB03D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		60E22E772036F78F007EB03D /* FaceDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceDetector.m; sourceTree = "<group>"; };
-		60E22E792036F7A2007EB03D /* FaceDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceDetector.h; sourceTree = "<group>"; };
+		83E07F71FEC3BED165B1111C /* Pods-ObjCCamera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjCCamera.release.xcconfig"; path = "Pods/Target Support Files/Pods-ObjCCamera/Pods-ObjCCamera.release.xcconfig"; sourceTree = "<group>"; };
+		D2E0E6540B25AC9E8FD9245C /* Pods-ObjCCamera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjCCamera.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ObjCCamera/Pods-ObjCCamera.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,18 +46,29 @@
 				60E22E732036EAD1007EB03D /* CoreVideo.framework in Frameworks */,
 				60E22E712036EAC0007EB03D /* CoreMedia.framework in Frameworks */,
 				60E22E6F2036EA83007EB03D /* AVFoundation.framework in Frameworks */,
+				62588555C55820F7DFD085D3 /* libPods-ObjCCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42207E92D0843D6268557A2E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D2E0E6540B25AC9E8FD9245C /* Pods-ObjCCamera.debug.xcconfig */,
+				83E07F71FEC3BED165B1111C /* Pods-ObjCCamera.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		60E22E4B2036E9B6007EB03D = {
 			isa = PBXGroup;
 			children = (
 				60E22E562036E9B6007EB03D /* ObjCCamera */,
 				60E22E552036E9B6007EB03D /* Products */,
 				60E22E6D2036EA82007EB03D /* Frameworks */,
+				42207E92D0843D6268557A2E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,8 +92,6 @@
 				60E22E622036E9B6007EB03D /* LaunchScreen.storyboard */,
 				60E22E652036E9B6007EB03D /* Info.plist */,
 				60E22E662036E9B6007EB03D /* main.m */,
-				60E22E772036F78F007EB03D /* FaceDetector.m */,
-				60E22E792036F7A2007EB03D /* FaceDetector.h */,
 			);
 			path = ObjCCamera;
 			sourceTree = "<group>";
@@ -92,6 +102,7 @@
 				60E22E722036EAD1007EB03D /* CoreVideo.framework */,
 				60E22E702036EABF007EB03D /* CoreMedia.framework */,
 				60E22E6E2036EA83007EB03D /* AVFoundation.framework */,
+				241ACB251B3F213C9853935B /* libPods-ObjCCamera.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -103,9 +114,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60E22E6A2036E9B6007EB03D /* Build configuration list for PBXNativeTarget "ObjCCamera" */;
 			buildPhases = (
+				1040F68285A2512A57A23468 /* [CP] Check Pods Manifest.lock */,
 				60E22E502036E9B6007EB03D /* Sources */,
 				60E22E512036E9B6007EB03D /* Frameworks */,
 				60E22E522036E9B6007EB03D /* Resources */,
+				9AC71EC29B50132A7625288C /* [CP] Embed Pods Frameworks */,
+				92ACE017863FAEBE79C1B6D7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -162,6 +176,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1040F68285A2512A57A23468 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ObjCCamera-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		92ACE017863FAEBE79C1B6D7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ObjCCamera/Pods-ObjCCamera-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AC71EC29B50132A7625288C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ObjCCamera/Pods-ObjCCamera-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		60E22E502036E9B6007EB03D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -169,7 +234,6 @@
 			files = (
 				60E22E5C2036E9B6007EB03D /* ViewController.mm in Sources */,
 				60E22E672036E9B6007EB03D /* main.m in Sources */,
-				60E22E782036F78F007EB03D /* FaceDetector.m in Sources */,
 				60E22E592036E9B6007EB03D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,10 +366,12 @@
 		};
 		60E22E6B2036E9B6007EB03D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2E0E6540B25AC9E8FD9245C /* Pods-ObjCCamera.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GDYU937CV9;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ObjCCamera/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -317,10 +383,12 @@
 		};
 		60E22E6C2036E9B6007EB03D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 83E07F71FEC3BED165B1111C /* Pods-ObjCCamera.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GDYU937CV9;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ObjCCamera/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

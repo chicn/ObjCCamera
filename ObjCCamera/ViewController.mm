@@ -6,6 +6,8 @@
 //  Copyright © 2018 Chihiro. All rights reserved.
 //
 
+#include "opencv2/opencv.hpp"
+
 #import "ViewController.h"
 
 using namespace std;
@@ -23,10 +25,6 @@ using namespace std;
     AVSampleBufferDisplayLayer *displayLayer;
 
     NSMutableArray<AVMetadataFaceObject *>* faceObjects;
-
-//    FaceDetector faceDetector;
-//    dlib::shape_predictor landmarkDetector;
-
 }
 
 - (void)dealloc
@@ -38,9 +36,6 @@ using namespace std;
     [super viewDidLoad];
 
     displayLayer = [AVSampleBufferDisplayLayer new];
-
-//    std::string faceAlignmentModelPath = [[[NSBundle mainBundle] pathForResource:@"shape_predictor_68_face_landmarks" ofType:@"dat"] UTF8String];
-//    dlib::deserialize(faceAlignmentModelPath) >> landmarkDetector;
 
     [self initCamera];
 
@@ -120,7 +115,7 @@ using namespace std;
     // Prepare image for mtcnn
     cv::Mat img = cv::Mat(height, width, CV_8UC4, baseBuffer, bytesPerRow); //put buffer in open cv, no memory copied
     if(!img.data){
-        cout<<"Reading video failed"<<endl;
+        cerr << "Reading video failed" << endl;
         return;
     }
 
@@ -137,24 +132,11 @@ using namespace std;
 
     NSDate *startDate = [NSDate new];
 
-    std::vector<MtcnnResult> faceDetectionResults = faceDetector.run(img, FaceDetector::WOWO);
+    // write processes here
 
     NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startDate];
     NSLog(@"inerval: %fms", interval * 1000 );
 
-    cv::Mat grayImage;
-    cv::cvtColor(img, grayImage, CV_BGR2GRAY);
-
-    for (const auto& result : faceDetectionResults) {
-        cv::Rect rect = result.bb;
-        dlib::rectangle r(rect.tl().x, rect.tl().y, rect.br().x, rect.br().y);
-        dlib::full_object_detection shape = landmarkDetector(dlib::cv_image<uint8_t>(grayImage), r);
-
-        // draw?
-        cv::rectangle(img, rect, cv::Scalar(255, 127, 255), 1);
-        for (int i = 0; i < shape.num_parts(); ++i)
-            cv::circle(img, cv::Point((int)shape.part(i).x(), (int)shape.part(i).y()), 1, Scalar(127,255,191));
-    }
 
     // Switch from BGR to RGB and put them back to the pixel buffer
     long location = 0;
