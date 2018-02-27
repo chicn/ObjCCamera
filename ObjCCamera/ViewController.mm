@@ -1,5 +1,5 @@
 //
-//  ViewController.m
+//  ViewController.mm
 //  ObjCCamera
 //
 //  Created by Chihiro on 2018/02/16.
