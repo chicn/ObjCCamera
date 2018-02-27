@@ -55,3 +55,6 @@ xcuserdata/
 *.xcscmblueprint
 
 
+Pods
+Podfile.lock
+ObjCCamera.xcworkspace
