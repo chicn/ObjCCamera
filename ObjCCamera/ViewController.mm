@@ -8,137 +8,173 @@
 
 #import "ViewController.h"
 
+using namespace std;
+
 @interface ViewController ()
+<AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @end
 
 @implementation ViewController
+{
+    AVCaptureSession *session;
+    dispatch_queue_t faceQueue;
+
+    AVSampleBufferDisplayLayer *displayLayer;
+
+    NSMutableArray<AVMetadataFaceObject *>* faceObjects;
+
+//    FaceDetector faceDetector;
+//    dlib::shape_predictor landmarkDetector;
+
+}
+
+- (void)dealloc
+{
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Get a device
-    AVCaptureDevice* device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    // Create input
-    AVCaptureDeviceInput* deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:NULL];
 
-    // Create video output
-    NSDictionary* settings = @{(id)kCVPixelBufferPixelFormatTypeKey:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
-    AVCaptureVideoDataOutput* dataOutput = [[AVCaptureVideoDataOutput alloc] init];
-    dataOutput.videoSettings = settings;
-    [dataOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
+    displayLayer = [AVSampleBufferDisplayLayer new];
 
-    // Set up a session
-    self.session = [[AVCaptureSession alloc] init];
-    [self.session addInput:deviceInput];
-    [self.session addOutput:dataOutput];
-    self.session.sessionPreset = AVCaptureSessionPreset352x288;
+//    std::string faceAlignmentModelPath = [[[NSBundle mainBundle] pathForResource:@"shape_predictor_68_face_landmarks" ofType:@"dat"] UTF8String];
+//    dlib::deserialize(faceAlignmentModelPath) >> landmarkDetector;
 
-    AVCaptureConnection *videoConnection = NULL;
+    [self initCamera];
 
-    // Set up a camera settings
-    [self.session beginConfiguration];
+}
 
-    for ( AVCaptureConnection *connection in [dataOutput connections] )
-    {
-        for ( AVCaptureInputPort *port in [connection inputPorts] )
-        {
-            if ( [[port mediaType] isEqual:AVMediaTypeVideo] )
-            {
-                videoConnection = connection;
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    displayLayer.frame = self.view.bounds;
+    [self.view.layer addSublayer:displayLayer];
+    [self.view layoutIfNeeded];
+}
 
-            }
+#pragma mark - Camera
+
+- (void)initCamera
+{
+    NSError *error;
+
+    faceQueue = dispatch_queue_create("com.f.faceQueue", DISPATCH_QUEUE_SERIAL);
+
+    AVCaptureDevice *captureDevice;  // Get the device
+    for (AVCaptureDevice *device in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
+        if (device.position == AVCaptureDevicePositionFront) {
+            captureDevice = device;
         }
     }
-    if([videoConnection isVideoOrientationSupported]) // **Here it is, its always false**
-    {
-        [videoConnection setVideoOrientation:AVCaptureVideoOrientationPortrait];
+
+    if(captureDevice == nil) {
+        [NSException raise:@"" format:@"AVCaptureDevicePositionBack not found"];
     }
 
-    [self.session commitConfiguration];
-    // Start the session
-    [self.session startRunning];
+    session = [[AVCaptureSession alloc] init];  // Create a session
+
+    [session beginConfiguration];  // Configure the session
+    session.sessionPreset = AVCaptureSessionPreset352x288;
+
+    AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];  // Create and add the input
+    if (error) {
+        [NSException raise:@"" format:@"AVCaptureDeviceInput not found"];
+    }
+    [session addInput:deviceInput];
+
+    AVCaptureVideoDataOutput *videoOutput = [[AVCaptureVideoDataOutput alloc] init];  // Create an output and add
+    videoOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) }; // Config
+    [videoOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()]; // output
+    [session addOutput:videoOutput];
+
+    [session commitConfiguration];
+
+    // Start getting input from the camera
+    [session startRunning];
+
+    // Set where the input come from
+    for(AVCaptureConnection *connection in videoOutput.connections)
+    {
+        if(connection.supportsVideoOrientation)
+        {
+            connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+        }
+    }
 }
 
-//delegate method which is called every frame
+#pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate
+
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
-    // render image
-    UIImage* img = [self imageFromSampleBufferRef:sampleBuffer];
-    img = [self imageByDrawingCircleOnImage:img];
-    self.imageView.image = img;
-}
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 
-// Convert CMSampleBufferRef to UIImage
-- (UIImage *)imageFromSampleBufferRef:(CMSampleBufferRef)sampleBuffer
-{
-    // get an image buf
-    CVImageBufferRef    buffer;
-    buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
 
-    // Lock image buf
-    CVPixelBufferLockBaseAddress(buffer, 0);
-    // Get info from image buf
-    uint8_t*    base;
-    size_t      width, height, bytesPerRow;
-    base = CVPixelBufferGetBaseAddress(buffer);
-    width = CVPixelBufferGetWidth(buffer);
-    height = CVPixelBufferGetHeight(buffer);
-    bytesPerRow = CVPixelBufferGetBytesPerRow(buffer);
+    int width = static_cast<int>(CVPixelBufferGetWidth(pixelBuffer));
+    int height = static_cast<int>(CVPixelBufferGetHeight(pixelBuffer));
+    int bytesPerRow = static_cast<int>(CVPixelBufferGetBytesPerRow(pixelBuffer));
+    unsigned char *baseBuffer = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
 
-    //  Create a bitmap context
-    CGColorSpaceRef colorSpace;
-    CGContextRef    cgContext;
-    colorSpace = CGColorSpaceCreateDeviceRGB();
-    cgContext = CGBitmapContextCreate(
-                                      base, width, height, 8, bytesPerRow, colorSpace,
-                                      kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
-    CGColorSpaceRelease(colorSpace);
+    // Prepare image for mtcnn
+    cv::Mat img = cv::Mat(height, width, CV_8UC4, baseBuffer, bytesPerRow); //put buffer in open cv, no memory copied
+    if(!img.data){
+        cout<<"Reading video failed"<<endl;
+        return;
+    }
 
-    // Create image
-    CGImageRef  cgImage;
-    UIImage*    image;
-    cgImage = CGBitmapContextCreateImage(cgContext);
-    image = [UIImage imageWithCGImage:cgImage scale:1.0f
-                          orientation:UIImageOrientationUp];
-    CGImageRelease(cgImage);
-    CGContextRelease(cgContext);
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
 
-    // Unlock image buf
-    CVPixelBufferUnlockBaseAddress(buffer, 0);
-    return image;
-}
+    cv::cvtColor(img, img, CV_BGRA2BGR);
+    if(!img.data) cout<<"Reading video failed!"<<endl;
 
-- (UIImage *)imageByDrawingCircleOnImage:(UIImage *)src
-{
-    // begin a graphics context of sufficient size
-    UIGraphicsBeginImageContext(src.size);
 
-    // draw original image into the context
-    [src drawAtPoint:CGPointZero];
+    // Prepare mtcnn face detection
+    vector<cv::Rect> rects;
+    vector<float> confidences;
+    std::vector<std::vector<cv::Point>> alignment;
 
-    // get the context for CoreGraphics
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    NSDate *startDate = [NSDate new];
 
-    // set stroking color and draw circle
-    [[UIColor greenColor] setStroke];
+    std::vector<MtcnnResult> faceDetectionResults = faceDetector.run(img, FaceDetector::WOWO);
 
-    // make circle rect 5 px from border
-    //CGRect circleRect = CGRectMake(10, 20, 5, 5);
-    CGRect circleRect;
-    circleRect.origin = CGPointMake(10, 10);
-    circleRect.size = CGSizeMake(5, 5);
-    circleRect = CGRectInset(circleRect, 1, 1);
+    NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startDate];
+    NSLog(@"inerval: %fms", interval * 1000 );
 
-    // draw circle
-    CGContextStrokeEllipseInRect(ctx, circleRect);
+    cv::Mat grayImage;
+    cv::cvtColor(img, grayImage, CV_BGR2GRAY);
 
-    // make image out of bitmap context
-    UIImage *dst = UIGraphicsGetImageFromCurrentImageContext();
+    for (const auto& result : faceDetectionResults) {
+        cv::Rect rect = result.bb;
+        dlib::rectangle r(rect.tl().x, rect.tl().y, rect.br().x, rect.br().y);
+        dlib::full_object_detection shape = landmarkDetector(dlib::cv_image<uint8_t>(grayImage), r);
 
-    // free the context
-    UIGraphicsEndImageContext();
+        // draw?
+        cv::rectangle(img, rect, cv::Scalar(255, 127, 255), 1);
+        for (int i = 0; i < shape.num_parts(); ++i)
+            cv::circle(img, cv::Point((int)shape.part(i).x(), (int)shape.part(i).y()), 1, Scalar(127,255,191));
+    }
 
-    return dst;
+    // Switch from BGR to RGB and put them back to the pixel buffer
+    long location = 0;
+    uint8_t* pixel_ptr = (uint8_t*)img.data;
+    int cn = img.channels();
+    cv::Scalar_<uint8_t> rgb_pixel;
+    for(int i = 0; i < img.rows; i++) {
+        for(int j = 0; j < img.cols; j++) {
+            long bufferLocation = location * 4; // 4: RBGA
+            rgb_pixel.val[0] = pixel_ptr[i*img.cols*cn + j*cn + 2]; // R
+            rgb_pixel.val[1] = pixel_ptr[i*img.cols*cn + j*cn + 1]; // G
+            rgb_pixel.val[2] = pixel_ptr[i*img.cols*cn + j*cn + 0]; // B
+            baseBuffer[bufferLocation] = rgb_pixel.val[2];
+            baseBuffer[bufferLocation + 1] = rgb_pixel.val[1];
+            baseBuffer[bufferLocation + 2] = rgb_pixel.val[0];
+            location++;
+        }
+    }
+
+    [displayLayer enqueueSampleBuffer:sampleBuffer];
 }
 @end
+
