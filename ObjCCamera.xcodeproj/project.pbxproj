@@ -373,7 +373,7 @@
 				DEVELOPMENT_TEAM = GDYU937CV9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ObjCCamera/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.chicn.ObjCCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -390,7 +390,7 @@
 				DEVELOPMENT_TEAM = GDYU937CV9;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ObjCCamera/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.chicn.ObjCCamera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
